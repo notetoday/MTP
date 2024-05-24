@@ -2,7 +2,7 @@
 
 # 提示用户输入 MTP_PORT
 while true; do
-    read -p "请输入 MTP_PORT (1-65535): " MTP_PORT
+    read -p "请输入 端口号 (1-65535): " MTP_PORT
     if [[ $MTP_PORT -ge 1 && $MTP_PORT -le 65535 ]]; then
         break
     else
@@ -12,7 +12,7 @@ done
 
 # 生成随机的 MTP_SECRET
 while true; do
-    read -p "按下回车键以生成随机的 MTP_SECRET，或者输入自定义的 MTP_SECRET: " input_secret
+    read -p "请输入32位 SECRET密钥，回车随机生成: " input_secret
     if [[ -z $input_secret ]]; then
         MTP_SECRET=$(openssl rand -hex 16)
         echo "生成的随机 MTP_SECRET 为: $MTP_SECRET"
@@ -21,7 +21,7 @@ while true; do
         MTP_SECRET=$input_secret
         break
     else
-        echo "无效的 MTP_SECRET，请输入 32 个十六进制字符。"
+        echo "无效的 SECRET密钥，请输入 32 个十六进制字符。"
     fi
 done
 
@@ -29,7 +29,7 @@ done
 MTP_TAG="f661069514b5fde9c00201a12a030c3e"
 
 # 提示用户输入 MTP_TAG，如果留空则使用默认值
-read -p "请输入 MTP_TAG (32 个十六进制字符，留空以使用默认值): " input_tag
+read -p "请输入 MTP_TAG (留空以使用默认值): " input_tag
 if [[ ! -z $input_tag && $input_tag =~ ^[0-9a-fA-F]{32}$ ]]; then
     MTP_TAG=$input_tag
 elif [[ ! -z $input_tag ]]; then
