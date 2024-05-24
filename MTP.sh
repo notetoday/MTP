@@ -24,7 +24,7 @@ fi
 
 # 创建部署目录和 docker-compose.yml 文件
 mkdir -p ~/deploy/mtproto
-cat > ~/deploy/mtproto/docker-compose.yml <<EOF
+cat <<EOF > ~/deploy/mtproto/docker-compose.yml
 version: "3.9"
 
 services:
@@ -34,9 +34,9 @@ services:
     restart: always
     network_mode: host
     environment:
-      - MTP_PORT=$MTP_PORT
-      - MTP_SECRET=$MTP_SECRET
-      - MTP_TAG=$MTP_TAG
+      - MTP_PORT=${MTP_PORT}
+      - MTP_SECRET=${MTP_SECRET}
+      - MTP_TAG=${MTP_TAG}
       - MTP_DD_ONLY=t
       - MTP_TLS_ONLY=t
 EOF
