@@ -17,6 +17,8 @@ if [[ "$distro" != "Debian" ]]; then
     exit 1
 fi
 
+echo "系统检查通过，继续执行脚本。"
+
 # 提示用户输入 MTP_PORT
 while true; do
     read -p "请输入端口号 (1-65535): " MTP_PORT
@@ -52,16 +54,19 @@ fi
 
 # 检查并安装 Docker
 if ! command -v docker &> /dev/null; then
+    echo "安装 Docker..."
     curl -fsSL https://get.docker.com -o get-docker.sh && sh get-docker.sh
 fi
 
 # 检查并安装 Docker Compose
 if ! command -v docker-compose &> /dev/null; then
+    echo "安装 Docker Compose..."
     curl -L "https://github.com/docker/compose/releases/download/v2.16.0/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose 
     chmod +x /usr/local/bin/docker-compose
 fi
 
 # 创建部署目录和 docker-compose.yml 文件
+echo "创建部署目录和 docker-compose.yml 文件..."
 mkdir -p ~/deploy/mtproto
 
 # 生成 docker-compose.yml 文件
@@ -83,8 +88,10 @@ services:
 EOF
 
 # 切换到部署目录并启动容器
+echo "启动容器..."
 cd ~/deploy/mtproto
 docker-compose up -d
 
 # 查看容器日志
+echo "查看容器日志..."
 docker-compose logs -f & wait
