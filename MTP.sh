@@ -36,6 +36,21 @@ elif [[ ! -z $input_tag ]]; then
     echo "无效的 MTP_TAG，将使用默认值: $MTP_TAG"
 fi
 
+# 检查并安装 Docker
+if ! command -v docker &> /dev/null; then
+    curl -fsSL https://get.docker.com -o get-docker.sh && sh get-docker.sh
+else
+    :
+fi
+
+# 检查并安装 Docker Compose
+if ! command -v docker-compose &> /dev/null; then
+    curl -L "https://github.com/docker/compose/releases/download/v2.16.0/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose 
+    chmod +x /usr/local/bin/docker-compose
+else
+    :
+fi
+
 # 创建部署目录和 docker-compose.yml 文件
 mkdir -p ~/deploy/mtproto
 
