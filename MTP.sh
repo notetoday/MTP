@@ -1,9 +1,29 @@
 #!/bin/bash
 
 # 提示用户输入 MTP_PORT, MTP_SECRET 和 MTP_TAG
-read -p "请输入 MTP_PORT: " MTP_PORT
-read -p "请输入 MTP_SECRET: " MTP_SECRET
-read -p "请输入 MTP_TAG: " MTP_TAG
+while true; do
+    read -p "请输入 MTP_PORT (1-65535): " MTP_PORT
+    if [[ $MTP_PORT -ge 1 && $MTP_PORT -le 65535 ]]; then
+        break
+    else
+        echo "无效的端口号，请输入 1-65535 之间的端口号。"
+    fi
+done
+
+while true; do
+    read -p "请输入 MTP_SECRET (32 个十六进制字符): " MTP_SECRET
+    if [[ $MTP_SECRET =~ ^[0-9a-fA-F]{32}$ ]]; then
+        break
+    else
+        echo "无效的 MTP_SECRET，请输入 32 个十六进制字符。"
+    fi
+done
+
+read -p "请输入 MTP_TAG (32 个十六进制字符, 可选): " MTP_TAG
+if [[ ! $MTP_TAG =~ ^[0-9a-fA-F]{32}$ ]]; then
+    MTP_TAG=""
+    echo "MTP_TAG 留空"
+fi
 
 # 检查并安装 Docker
 if ! command -v docker &> /dev/null; then
