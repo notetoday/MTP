@@ -12,7 +12,7 @@ done
 
 # 生成随机的 MTP_SECRET
 while true; do
-    read -p "请输入SECRET密钥，回车随机生成: " input_secret
+    read -p "请输入SECRET密钥（回车随机生成）: " input_secret
     if [[ -z $input_secret ]]; then
         MTP_SECRET=$(openssl rand -hex 16)
         echo "生成的随机密钥为: $MTP_SECRET"
@@ -25,11 +25,9 @@ while true; do
     fi
 done
 
-# 设置默认的 MTP_TAG
-MTP_TAG="f661069514b5fde9c00201a12a030c3e"
 
-# 提示用户输入 MTP_TAG，如果留空则使用默认值
-read -p "请输入 MTP_TAG (请输入TAG，回车使用默认值): " input_tag
+MTP_TAG="f661069514b5fde9c00201a12a030c3e"
+read -p "请输入TAG (回车使用默认值): " input_tag
 if [[ ! -z $input_tag && $input_tag =~ ^[0-9a-fA-F]{32}$ ]]; then
     MTP_TAG=$input_tag
 elif [[ ! -z $input_tag ]]; then
