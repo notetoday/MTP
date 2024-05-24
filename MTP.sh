@@ -18,7 +18,6 @@ cat <<EOF > ~/deploy/mtproto/docker-compose.yml
 version: "3.9"
 
 services:
-
   mtproto:
     image: seriyps/mtproto-proxy
     container_name: mtproto
