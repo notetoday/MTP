@@ -12,10 +12,10 @@ done
 
 # 生成随机的 MTP_SECRET
 while true; do
-    read -p "请输入32位 SECRET密钥，回车随机生成: " input_secret
+    read -p "请输入SECRET密钥，回车随机生成: " input_secret
     if [[ -z $input_secret ]]; then
         MTP_SECRET=$(openssl rand -hex 16)
-        echo "生成的随机 MTP_SECRET 为: $MTP_SECRET"
+        echo "生成的SECRET密钥 为: $MTP_SECRET"
         break
     elif [[ $input_secret =~ ^[0-9a-fA-F]{32}$ ]]; then
         MTP_SECRET=$input_secret
@@ -34,23 +34,6 @@ if [[ ! -z $input_tag && $input_tag =~ ^[0-9a-fA-F]{32}$ ]]; then
     MTP_TAG=$input_tag
 elif [[ ! -z $input_tag ]]; then
     echo "无效的 MTP_TAG，将使用默认值: $MTP_TAG"
-fi
-
-# 检查并安装 Docker
-if ! command -v docker &> /dev/null; then
-    echo "Docker 未安装，正在安装..."
-    curl -fsSL https://get.docker.com -o get-docker.sh && sh get-docker.sh
-else
-    echo "Docker 已安装，跳过安装步骤。"
-fi
-
-# 检查并安装 Docker Compose
-if ! command -v docker-compose &> /dev/null; then
-    echo "Docker Compose 未安装，正在安装..."
-    curl -L "https://github.com/docker/compose/releases/download/v2.16.0/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose 
-    chmod +x /usr/local/bin/docker-compose
-else
-    echo "Docker Compose 已安装，跳过安装步骤。"
 fi
 
 # 创建部署目录和 docker-compose.yml 文件
