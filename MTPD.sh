@@ -10,10 +10,11 @@ fi
 echo "检测系统信息："
 lsb_release -a
 
-# 检查系统是否是 Debian
+# 检查系统是否是 Debian 11
 distro=$(lsb_release -is)
-if [[ "$distro" != "Debian" ]]; then
-    echo "此脚本仅支持 Debian 系统。"
+version=$(lsb_release -rs)
+if [[ "$distro" != "Debian" || "$version" != "11" ]]; then
+    echo "此脚本仅支持 Debian 11 系统。"
     exit 1
 fi
 
