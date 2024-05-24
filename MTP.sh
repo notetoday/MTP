@@ -19,11 +19,14 @@ while true; do
     fi
 done
 
-read -p "请输入 MTP_TAG (32 个十六进制字符, 可选): " MTP_TAG
-if [[ ! $MTP_TAG =~ ^[0-9a-fA-F]{32}$ ]]; then
-    MTP_TAG=""
-    echo "MTP_TAG 留空"
-fi
+while true; do
+    read -p "请输入 MTP_TAG (32 个十六进制字符): " MTP_TAG
+    if [[ $MTP_TAG =~ ^[0-9a-fA-F]{32}$ ]]; then
+        break
+    else
+        echo "无效的 MTP_TAG，请输入 32 个十六进制字符。"
+    fi
+done
 
 # 检查并安装 Docker
 if ! command -v docker &> /dev/null; then
@@ -44,8 +47,6 @@ fi
 
 # 创建部署目录和 docker-compose.yml 文件
 mkdir -p ~/deploy/mtproto
-
-# 生成 docker-compose.yml 文件
 cat <<EOF > ~/deploy/mtproto/docker-compose.yml
 version: "3.9"
 
@@ -58,15 +59,7 @@ services:
     environment:
       - MTP_PORT=${MTP_PORT}
       - MTP_SECRET=${MTP_SECRET}
-EOF
-
-# 如果 MTP_TAG 不为空，则添加到文件中
-if [[ -n $MTP_TAG ]]; then
-    echo "      - MTP_TAG=${MTP_TAG}" >> ~/deploy/mtproto/docker-compose.yml
-fi
-
-# 继续添加其余的环境变量
-cat <<EOF >> ~/deploy/mtproto/docker-compose.yml
+      - MTP_TAG=${MTP_TAG}
       - MTP_DD_ONLY=t
       - MTP_TLS_ONLY=t
 EOF
