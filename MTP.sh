@@ -46,4 +46,4 @@ cd ~/deploy/mtproto
 docker-compose up -d
 
 # 查看容器日志
-docker-compose logs -f
+docker-compose logs -f 
