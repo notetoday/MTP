@@ -1,11 +1,16 @@
 #!/bin/bash
 
-# 检查系统是否是 Debian
+# 调试部分：检查 lsb_release 命令是否可用
 if ! command -v lsb_release &> /dev/null; then
     echo "无法检测系统类型，确保 'lsb_release' 命令已安装。"
     exit 1
 fi
 
+# 调试部分：输出 lsb_release 的信息
+echo "检测系统信息："
+lsb_release -a
+
+# 检查系统是否是 Debian
 distro=$(lsb_release -is)
 if [[ "$distro" != "Debian" ]]; then
     echo "此脚本仅支持 Debian 系统。"
