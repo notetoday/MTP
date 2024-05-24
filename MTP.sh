@@ -24,7 +24,7 @@ fi
 
 # 创建部署目录和 docker-compose.yml 文件
 mkdir -p ~/deploy/mtproto
-cat <<EOF > ~/deploy/mtproto/docker-compose.yml
+cat > ~/deploy/mtproto/docker-compose.yml <<EOF
 version: "3.9"
 
 services:
@@ -46,4 +46,4 @@ cd ~/deploy/mtproto
 docker-compose up -d
 
 # 查看容器日志
-docker-compose logs -f 
+docker-compose logs -f
