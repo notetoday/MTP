@@ -44,6 +44,8 @@ fi
 
 # 创建部署目录和 docker-compose.yml 文件
 mkdir -p ~/deploy/mtproto
+
+# 生成 docker-compose.yml 文件
 cat <<EOF > ~/deploy/mtproto/docker-compose.yml
 version: "3.9"
 
@@ -56,7 +58,15 @@ services:
     environment:
       - MTP_PORT=${MTP_PORT}
       - MTP_SECRET=${MTP_SECRET}
-      - MTP_TAG=${MTP_TAG}
+EOF
+
+# 如果 MTP_TAG 不为空，则添加到文件中
+if [[ -n $MTP_TAG ]]; then
+    echo "      - MTP_TAG=${MTP_TAG}" >> ~/deploy/mtproto/docker-compose.yml
+fi
+
+# 继续添加其余的环境变量
+cat <<EOF >> ~/deploy/mtproto/docker-compose.yml
       - MTP_DD_ONLY=t
       - MTP_TLS_ONLY=t
 EOF
